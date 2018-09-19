@@ -1,0 +1,23 @@
+---
+- name: Add certbot PPA key
+  become: yes
+  apt_key:
+    keyserver: keyserver.ubuntu.com
+    id: 7BF576066ADA65728FC7E70A8C47BE8E75BCA694
+    state: present
+
+- name: Add certbot PPA
+  become: yes
+  apt_repository:
+    repo: deb http://ppa.launchpad.net/certbot/certbot/ubuntu {{ ansible_lsb.codename }} main
+    state: present
+    mode: 644
+    update_cache: yes
+
+- name: Install certbot
+  become: yes
+  apt:
+    pkg: python-certbot-apache
+    state: present
+    update_cache: yes
+    cache_valid_time: 300
